@@ -1,0 +1,5 @@
+package cc.unilock.yeplib;
+
+public final class Tags {
+	public static final String VERSION = "{{ version }}";
+}

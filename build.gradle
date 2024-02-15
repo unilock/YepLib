@@ -1,0 +1,62 @@
+plugins {
+	id 'java'
+	id 'maven-publish'
+	id 'net.kyori.blossom' version '2.1.0'
+	id 'xyz.jpenilla.run-velocity' version '2.2.3'
+}
+
+base {
+	archivesName = project.archives_base_name
+}
+
+version = project.plugin_version
+group = project.maven_group
+
+repositories {
+	maven { url = "https://papermc.io/repo/repository/maven-public/" }
+	mavenCentral()
+}
+
+dependencies {
+	annotationProcessor(compileOnly("com.velocitypowered:velocity-api:${project.velocity_version}"))
+}
+
+compileJava {
+	options.encoding = "UTF-8"
+	options.release = 17
+}
+
+java {
+	withSourcesJar()
+}
+
+runVelocity {
+	velocityVersion(project.velocity_version)
+}
+
+sourceSets {
+	main {
+		blossom {
+			javaSources {
+				property "version", project.version
+			}
+		}
+	}
+}
+
+// Configure the maven publication
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+		}
+	}
+
+	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+	repositories {
+		// Add repositories to publish to here.
+		// Notice: This block does NOT have the same function as the block in the top level.
+		// The repositories here will be used for publishing your artifact, not for
+		// retrieving dependencies.
+	}
+}
