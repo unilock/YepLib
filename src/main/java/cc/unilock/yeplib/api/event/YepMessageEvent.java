@@ -7,10 +7,10 @@ import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 
 import java.util.List;
 
-public final class YepMessageEvent {
-    private final MinecraftChannelIdentifier type;
-    private final List<String> parameters;
-    private final ServerConnection source;
+public class YepMessageEvent {
+    protected final MinecraftChannelIdentifier type;
+    protected final List<String> parameters;
+    protected final ServerConnection source;
 
     public YepMessageEvent(MinecraftChannelIdentifier type, List<String> params, ServerConnection source) {
         this.type = Preconditions.checkNotNull(type);

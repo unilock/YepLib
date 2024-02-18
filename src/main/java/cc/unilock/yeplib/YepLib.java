@@ -1,5 +1,7 @@
 package cc.unilock.yeplib;
 
+import cc.unilock.yeplib.api.event.YepAdvancementEvent;
+import cc.unilock.yeplib.api.event.YepDeathEvent;
 import cc.unilock.yeplib.api.event.YepMessageEvent;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
@@ -21,18 +23,26 @@ import java.util.Arrays;
         version = Tags.VERSION,
         authors = {"unilock"}
 )
-public final class YepLib {
-    private static final MinecraftChannelIdentifier YEP_GENERIC = MinecraftChannelIdentifier.create("yep", "generic");
+public class YepLib {
     private static final String RECORD_SEPARATOR = "␞";
     private static final String UNIT_SEPARATOR = "␟";
 
+    private static final MinecraftChannelIdentifier YEP_GENERIC = MinecraftChannelIdentifier.create("yep", "generic");
+    private static final MinecraftChannelIdentifier YEP_ADVANCEMENT = MinecraftChannelIdentifier.create("yep", "advancement");
+    private static final MinecraftChannelIdentifier YEP_DEATH = MinecraftChannelIdentifier.create("yep", "death");
+
+
     private final ProxyServer proxy;
     private final Logger logger;
+
+    private static YepLib instance;
 
     @Inject
     public YepLib(ProxyServer proxy, Logger logger) {
         this.proxy = proxy;
         this.logger = logger;
+
+        instance = this;
     }
 
     @Subscribe
@@ -59,5 +69,16 @@ public final class YepLib {
         var parameters = Arrays.asList(parts[1].split(UNIT_SEPARATOR));
 
         this.proxy.getEventManager().fire(new YepMessageEvent(type, parameters, source));
+
+        if (YEP_ADVANCEMENT.equals(type)) {
+            this.proxy.getEventManager().fire(new YepAdvancementEvent(type, parameters, source));
+        }
+        if (YEP_DEATH.equals(type)) {
+            this.proxy.getEventManager().fire(new YepDeathEvent(type, parameters, source));
+        }
+    }
+
+    public static ProxyServer getProxy() {
+        return instance.proxy;
     }
 }
