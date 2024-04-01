@@ -33,10 +33,6 @@ public class YepAdvancementEvent {
         this.description = params.get(4);
     }
 
-    public AdvancementType getAdvType() {
-        return this.advType;
-    }
-
     public Player getPlayer() {
         return this.player;
     }
@@ -47,6 +43,10 @@ public class YepAdvancementEvent {
 
     public String getDisplayName() {
         return this.displayname;
+    }
+
+    public AdvancementType getAdvType() {
+        return this.advType;
     }
 
     public String getTitle() {
