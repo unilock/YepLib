@@ -55,26 +55,26 @@ public class YepLib {
         if (!event.getIdentifier().equals(YEP_GENERIC)) return;
         if (!(event.getSource() instanceof ServerConnection source)) return;
 
-        var data = new String(event.getData(), StandardCharsets.UTF_8);
+        final var data = new String(event.getData(), StandardCharsets.UTF_8);
 
         // type␞param1␟param2␟param3...
-        var parts = data.split(RECORD_SEPARATOR);
+        final var parts = data.split(RECORD_SEPARATOR);
 
         if (parts.length != 2) {
             logger.warn("Invalid Yep message: " + data);
             return;
         }
 
-        var type = MinecraftChannelIdentifier.from(parts[0]);
-        var parameters = Arrays.asList(parts[1].split(UNIT_SEPARATOR));
+        final var type = MinecraftChannelIdentifier.from(parts[0]);
+        final var parameters = Arrays.asList(parts[1].split(UNIT_SEPARATOR));
 
-        this.proxy.getEventManager().fire(new YepMessageEvent(type, parameters, source));
+        this.proxy.getEventManager().fireAndForget(new YepMessageEvent(type, parameters, source));
 
         if (YEP_ADVANCEMENT.equals(type)) {
-            this.proxy.getEventManager().fire(new YepAdvancementEvent(type, parameters, source));
+            this.proxy.getEventManager().fireAndForget(new YepAdvancementEvent(type, parameters, source));
         }
         if (YEP_DEATH.equals(type)) {
-            this.proxy.getEventManager().fire(new YepDeathEvent(type, parameters, source));
+            this.proxy.getEventManager().fireAndForget(new YepDeathEvent(type, parameters, source));
         }
     }
 
