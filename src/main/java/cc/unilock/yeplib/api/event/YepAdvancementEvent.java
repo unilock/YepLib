@@ -33,6 +33,18 @@ public class YepAdvancementEvent {
         this.description = params.get(4);
     }
 
+    public MinecraftChannelIdentifier getType() {
+        return this.type;
+    }
+
+    public List<String> getParameters() {
+        return this.parameters;
+    }
+
+    public ServerConnection getSource() {
+        return this.source;
+    }
+
     public Player getPlayer() {
         return this.player;
     }
