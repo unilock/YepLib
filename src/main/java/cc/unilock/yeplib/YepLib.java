@@ -68,13 +68,12 @@ public class YepLib {
         final var type = MinecraftChannelIdentifier.from(parts[0]);
         final var parameters = Arrays.asList(parts[1].split(UNIT_SEPARATOR));
 
-        this.proxy.getEventManager().fireAndForget(new YepMessageEvent(type, parameters, source));
-
         if (YEP_ADVANCEMENT.equals(type)) {
             this.proxy.getEventManager().fireAndForget(new YepAdvancementEvent(type, parameters, source));
-        }
-        if (YEP_DEATH.equals(type)) {
+        } else if (YEP_DEATH.equals(type)) {
             this.proxy.getEventManager().fireAndForget(new YepDeathEvent(type, parameters, source));
+        } else {
+            this.proxy.getEventManager().fireAndForget(new YepMessageEvent(type, parameters, source));
         }
     }
 
