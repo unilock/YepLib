@@ -9,7 +9,7 @@ import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 
 import java.util.List;
 
-public class YepAdvancementEvent extends YepMessageEvent{
+public class YepAdvancementEvent extends YepMessageEvent {
     private final Player player;
     private final String username;
     private final String displayname;
